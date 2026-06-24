@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -7,6 +7,164 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
+ 🗂️ **Laravel Task Management System**
+
+A simple Task Management System built using **Laravel 11, PHP 8+, MySQL, and Bootstrap 5**.  
+This project demonstrates CRUD operations, search, filtering, pagination, and clean MVC architecture.
+
+---
+
+## 🚀 Features
+
+- ➕ Create new tasks  
+- 📋 View all tasks  
+- ✏️ Edit tasks  
+- ❌ Delete tasks  
+- ✅ Mark tasks as completed  
+- 🔍 Search tasks by title  
+- 🎯 Filter by priority (Low / Medium / High)  
+- 📄 Pagination (5 tasks per page)  
+- 🎨 Bootstrap 5 UI  
+
+---
+
+## 🛠️ Tech Stack
+
+- Laravel 11  
+- PHP 8.1+  
+- MySQL  
+- Bootstrap 5  
+- Blade Templates  
+- Composer  
+
+---
+
+## 📁 Project Structure
+
+app/Http/Controllers/TaskController.php  
+app/Models/Task.php  
+
+database/migrations/create_tasks_table.php  
+
+resources/views/tasks/  
+- index.blade.php  
+- create.blade.php  
+- edit.blade.php  
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the repository
+git clone https://github.com/your-username/task-management-system.git  
+
+---
+
+### 2. Go to project folder
+cd task-management-system  
+
+---
+
+### 3. Install dependencies
+composer install  
+
+---
+
+### 4. Copy environment file
+copy .env.example .env  
+
+---
+
+### 5. Generate application key
+php artisan key:generate  
+
+---
+
+### 6. Configure database in .env
+
+DB_CONNECTION=mysql  
+DB_HOST=127.0.0.1  
+DB_PORT=3306  
+DB_DATABASE=task_manager  
+DB_USERNAME=root  
+DB_PASSWORD=  
+
+---
+
+### 7. Run migrations
+php artisan migrate  
+
+---
+
+### 8. Start server
+php artisan serve  
+
+---
+
+### 9. Open in browser
+http://127.0.0.1:8000/tasks  
+
+---
+
+## 📌 Routes
+
+GET    /tasks                → List tasks  
+GET    /tasks/create         → Create form  
+POST   /tasks                → Store task  
+GET    /tasks/{task}/edit    → Edit task  
+PUT    /tasks/{task}         → Update task  
+DELETE /tasks/{task}         → Delete task  
+PATCH  /tasks/{task}/complete → Mark as completed  
+
+---
+
+## 🧠 Concepts Used
+
+- MVC Architecture  
+- Laravel Resource Controllers  
+- Eloquent ORM  
+- Query Builder (Search & Filter)  
+- Form Validation  
+- Blade Templates  
+- Pagination  
+- RESTful APIs basics  
+
+---
+
+## 🔍 Search & Filter
+
+- Search uses LIKE query for task title  
+- Filter works using priority (Low / Medium / High)  
+- Both can work together  
+
+---
+
+## 📸 Screenshots
+
+(Add screenshots here after running project)
+
+---
+
+## 🚀 Future Improvements
+
+- Login/Register system  
+- Multi-user task management  
+- Due dates & reminders  
+- API + React frontend  
+- Dashboard analytics  
+
+---
+
+## 👨‍💻 Author
+
+Sushanth  
+Aspiring Software Developer | Laravel | Cloud Enthusiast  
+
+---
+
+## 📜 License
+
+This project is for educational and internship assessment purposes.
 
 ## About Laravel
 
@@ -29,43 +187,3 @@ Laravel has the most extensive and thorough [documentation](https://laravel.com/
 You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
 If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-======
-# task-management-system
-Laravel intern project(To-Do)
->>>>>>> ee42d72ffb6d70ff6770677638a52aa87000f507
