@@ -4,190 +4,229 @@
 <title>Tasks</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg premium-navbar">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="#">
-            <i class="bi bi-check2-square me-2"></i>
-            Task Management System
-        </a>
-    </div>
-</nav>
 
 <style>
+body {
+    background: linear-gradient(135deg, #eef2ff, #f8fafc);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Navbar */
 .premium-navbar {
     background: linear-gradient(135deg, #0f172a, #1e293b);
     padding: 14px 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .premium-navbar .navbar-brand {
     color: #fff;
     font-size: 1.4rem;
-    letter-spacing: 0.5px;
     font-weight: 700;
-    transition: all 0.3s ease;
 }
 
-.premium-navbar .navbar-brand:hover {
-    color: #60a5fa;
-    transform: translateY(-1px);
+/* Container Card */
+.main-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    padding: 25px;
 }
 
-.premium-navbar i {
-    color: #38bdf8;
+/* Table */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
 }
-</style>  
-<div class="alert alert-info">
 
-    Total Tasks Found:
-    {{ $tasks->total() }}
+.table thead {
+    background: #1e293b;
+    color: #fff;
+}
 
-</div>
+.table tbody tr:hover {
+    background: #f1f5f9;
+    transition: 0.2s;
+}
+
+/* Buttons */
+.btn-modern {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 6px 12px;
+}
+
+/* Add Task Button */
+.add-btn {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+    border: none;
+}
+
+.add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(16,185,129,0.3);
+}
+
+/* Filters */
+.filter-box {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar premium-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            ✅ Task Management System
+        </a>
+    </div>
+</nav>
+
 <div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-body">
-<!-- Search + Priority Filter Form -->
-<form method="GET"
-      action="{{ route('tasks.index') }}"
-      class="row mb-3">
 
-    <!-- Search Box -->
-    <div class="col-md-4">
-
-        <input type="text"
-               name="search"
-               value="{{ request('search') }}"
-               class="form-control"
-               placeholder="Search Tasks">
-
+    <!-- ALERT -->
+    <div class="alert alert-primary shadow-sm">
+        <strong>Total Tasks:</strong> {{ $tasks->total() }}
     </div>
 
-    <!-- Priority Filter Dropdown -->
-    <div class="col-md-3">
+    <div class="main-card">
 
-        <select name="priority"
-                class="form-control">
+        <!-- FILTERS -->
+        <form method="GET" action="{{ route('tasks.index') }}" class="row g-2 filter-box mb-3">
 
-            <option value="">All Priorities</option>
+            <div class="col-md-5">
+                <input type="text"
+                       name="search"
+                       value="{{ request('search') }}"
+                       class="form-control"
+                       placeholder="Search tasks...">
+            </div>
 
-            <option value="Low"
-                {{ request('priority') == 'Low' ? 'selected' : '' }}>
-                Low
-            </option>
+            <div class="col-md-3">
+                <select name="priority" class="form-select">
+                    <option value="">All Priority</option>
+                    <option value="Low" {{ request('priority') == 'Low' ? 'selected' : '' }}>Low</option>
+                    <option value="Medium" {{ request('priority') == 'Medium' ? 'selected' : '' }}>Medium</option>
+                    <option value="High" {{ request('priority') == 'High' ? 'selected' : '' }}>High</option>
+                </select>
+            </div>
 
-            <option value="Medium"
-                {{ request('priority') == 'Medium' ? 'selected' : '' }}>
-                Medium
-            </option>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100 btn-modern">Search</button>
+            </div>
 
-            <option value="High"
-                {{ request('priority') == 'High' ? 'selected' : '' }}>
-                High
-            </option>
+            <div class="col-md-2">
+                <a href="{{ route('tasks.index') }}" class="btn btn-secondary w-100 btn-modern">Clear</a>
+            </div>
 
-        </select>
+        </form>
 
-    </div>
-
-    <!-- Search Button -->
-    <div class="col-md-2">
-
-        <button type="submit"
-                class="btn btn-primary">
-            Search
-        </button>
-
-    </div>
-
-    <!-- Clear Filter Button -->
-    <div class="col-md-2">
-
-        <a href="{{ route('tasks.index') }}"
-           class="btn btn-secondary">
-            Clear
+        <!-- ADD BUTTON -->
+        <a href="{{ route('tasks.create') }}" class="btn add-btn mb-3 btn-modern">
+            + Add Task
         </a>
 
+        <!-- TABLE -->
+        <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            @foreach($tasks as $task)
+            <tr>
+                <td>
+                    <span
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="{{ $task->description ?: 'No description available' }}">
+                        {{ $task->title }}
+                    </span>
+                </td>
+
+                <td>
+                    @if($task->priority == 'High')
+                        <span class="badge bg-danger">High</span>
+                    @elseif($task->priority == 'Medium')
+                        <span class="badge bg-warning text-dark">Medium</span>
+                    @else
+                        <span class="badge bg-success">Low</span>
+                    @endif
+                </td>
+
+                <td>
+                    @if($task->status == 'Completed')
+                        <span class="badge bg-success">Completed</span>
+                    @else
+                        <span class="badge bg-secondary">Pending</span>
+                    @endif
+                </td>
+
+                <td class="d-flex gap-1">
+
+                    <a href="{{ route('tasks.edit',$task->id) }}"
+                       class="btn btn-sm btn-warning btn-modern">
+                        Edit
+                    </a>
+
+                    <form action="{{ route('tasks.complete',$task->id) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <button class="btn btn-sm btn-success btn-modern">
+                            Done
+                        </button>
+                    </form>
+
+                    <form action="{{ route('tasks.destroy',$task->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-danger btn-modern">
+                            Delete
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+            @endforeach
+
+            </tbody>
+
+        </table>
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="mt-3 d-flex justify-content-center">
+            {{ $tasks->links('pagination::bootstrap-5') }}
+        </div>
+
     </div>
-
-</form>
-<a href="{{ route('tasks.create') }}" class="btn btn-success mb-3">
-    + Add Task
-</a>
-
-<table class="table table-hover table-bordered align-middle">
-
-<tr>
-<th>Title</th>
-<th>Priority</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
-
-@foreach($tasks as $task)
-
-<tr>
-<td>{{ $task->title }}</td>
-<td>
-    @if($task->priority == 'High')
-        <span class="badge bg-danger">High</span>
-    @elseif($task->priority == 'Medium')
-        <span class="badge bg-warning text-dark">Medium</span>
-    @else
-        <span class="badge bg-success">Low</span>
-    @endif
-</td>
-<td>
-    @if($task->status == 'Completed')
-        <span class="badge bg-success">Completed</span>
-    @else
-        <span class="badge bg-secondary">Pending</span>
-    @endif
-</td>
-
-<td>
-
-<a href="{{ route('tasks.edit',$task->id) }}"
-   class="btn btn-sm btn-warning">
-    Edit
-</a>
-
-<form action="{{ route('tasks.complete',$task->id) }}"
-      method="POST"
-      style="display:inline;">
-    @csrf
-    @method('PATCH')
-
-    <button class="btn btn-sm btn-success">
-        Done
-    </button>
-</form>
-
-<form action="{{ route('tasks.destroy',$task->id) }}"
-      method="POST"
-      style="display:inline;">
-    @csrf
-    @method('DELETE')
-
-    <button class="btn btn-sm btn-danger">
-        Delete
-    </button>
-</form>
-
-</td>
-</tr>
-
-@endforeach
-
-</table>
-<div class="mt-3 d-flex justify-content-center">
-    {{ $tasks->links('pagination::bootstrap-5') }}
 </div>
-     </div>
-        </div>   
-</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
 </body>
 </html>

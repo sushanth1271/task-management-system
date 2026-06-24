@@ -1,64 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Task</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: radial-gradient(circle at top, #e0e7ff, #f5f7ff);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .task-card {
+            width: 100%;
+            max-width: 850px; /* increased size */
+            background: #fff;
+            border-radius: 22px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        .task-title {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            transition: 0.3s;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.2);
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+
+        /* Shared button style */
+        .btn-premium {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+        }
+
+        /* Save button */
+        .btn-save {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+        }
+
+        /* Back button (same style but softer tone) */
+        .btn-back {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: #fff;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(108,117,125,0.3);
+        }
+
+        .header-icon {
+            font-size: 40px;
+            text-align: center;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .btn-group-custom {
+            display: flex;
+            flex-direction: column;
+            gap: 12px; /* space between buttons */
+            margin-top: 10px;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="container mt-4">
+<div class="task-card">
 
-    <h2>Add Task</h2>
+    <span class="header-icon">📝</span>
 
+    <h2 class="task-title">Create New Task</h2>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <strong>⚠ Validation Error!</strong>
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     <form method="POST" action="{{ route('tasks.store') }}">
-
         @csrf
 
         <div class="mb-3">
-            <label>Title</label>
+            <label class="form-label">Title</label>
 
             <input type="text"
-                   name="title"
-                   class="form-control">
+                name="title"
+                value="{{ old('title') }}"
+                class="form-control @error('title') is-invalid @enderror"
+                placeholder="Enter Task Title">
+
+            @error('title')
+            <div class="invalid-feedback">
+                ⚠ {{ $message }}
+            </div>
+            @enderror
         </div>
+
 
         <div class="mb-3">
-            <label>Description</label>
-
-            <textarea name="description"
-                      class="form-control"></textarea>
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" placeholder="Enter task details"></textarea>
         </div>
 
-        <div class="mb-3">
-            <label>Priority</label>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Priority</label>
+                <select name="priority" class="form-select">
+                    <option value="Low">🟢 Low</option>
+                    <option value="Medium">🟡 Medium</option>
+                    <option value="High">🔴 High</option>
+                </select>
+            </div>
 
-            <select name="priority"
-                    class="form-control">
-
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-
-            </select>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option value="Pending">⏳ Pending</option>
+                    <option value="Completed">✅ Completed</option>
+                </select>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label>Status</label>
+        <!-- Buttons -->
+        <div class="btn-group-custom">
 
-            <select name="status"
-                    class="form-control">
+            <button type="submit" class="btn-premium btn-save">
+                Save Task
+            </button>
 
-                <option value="Pending">Pending</option>
-                <option value="Completed">Completed</option>
+            <button type="button"
+                    class="btn-premium btn-back"
+                    onclick="history.back()">
+                ← Back
+            </button>
 
-            </select>
         </div>
-
-        <button type="submit"
-                class="btn btn-success">
-            Save Task
-        </button>
 
     </form>
 
