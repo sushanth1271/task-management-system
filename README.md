@@ -166,8 +166,6 @@ Modify existing task information.
 ---
 
 
----
-
 ## 🚀 Future Improvements
 
 - Login/Register system  
