@@ -141,7 +141,30 @@ PATCH  /tasks/{task}/complete → Mark as completed
 
 ## 📸 Screenshots
 
-(Add screenshots here after running project)
+### 🏠 Task Dashboard
+
+![Task Dashboard](Screenshot/dashboard.png)
+
+Displays all tasks with search, filter, pagination, and action buttons.
+
+---
+
+### ➕ Create Task
+
+![Create Task](Screenshot/createnewtask.png)
+
+Create a new task with title, description, priority, and status.
+
+---
+
+### ✏️ Edit Task
+
+![Edit Task](Screenshot/edittask.png)
+
+Modify existing task information.
+
+---
+
 
 ---
 
